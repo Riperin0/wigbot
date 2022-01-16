@@ -16,7 +16,7 @@ public class BotStartup {
 	public static void main(String[] args) throws LoginException {
 		
 		System.out.print(new Commands().wiggy.p1.toString());
-		
+		System.out.println("TEST");
 		
 		JDABuilder jda = JDABuilder.createDefault(token);
 		jda.setActivity(Activity.listening(prefix+"help"));
