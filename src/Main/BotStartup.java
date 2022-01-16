@@ -12,7 +12,7 @@ public class BotStartup {
 	static String tokenz = token.tokens;
 	public static void main(String[] args) throws LoginException {
 		
-		System.out.println(new files().p1) ;
+		System.out.println(new files().p2) ;
 		
 		
 		

@@ -31,15 +31,34 @@ public class Commands extends ListenerAdapter {
 		//[&command][arguments][etc][etc]
 		
 		
+		for (String word: args) {
+			if(word.toLowerCase().equals("wig")){
+				try {
+					wiggy.Increment(event);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		
 		switch (args[0]) { //checks for command to run
 		
-		case("wig"):
+		case("wig"): //TODO put this in the FOR loop so that we don't get +1 extra wig when someone starts with wig
+			
 			
 			String user = event.getAuthor().getId();
 			
+			try {
 			Integer wigtemp = wiggy.wigDict.get(user);
 			
 			wiggy.wigDict.replace(user, wigtemp+1);
+			} catch (NullPointerException e) {
+				wiggy.wigDict.put(user, 1);
+				e.printStackTrace();
+			}
 			
 			try {
 				

@@ -22,7 +22,18 @@ public class files {
 	Boolean avail =true;
 	public HashMap<String, Integer> wigDict = new HashMap<String, Integer>();
 	
-	Path p1 = Paths.get("\\txt\\Wig.txt");
+	Path p1 = Paths.get("txt/Wig.txt");
+	Path p2 = Paths.get("txt/Wigtemp.txt");
+	
+	
+	
+	
+	//File wigFile = new File("C:\\WigBot\\Wig.txt");
+	//File tmpFile = new File("C:\\WigBot\\Wigtemp.txt");
+	
+	File wigFile = p1.toFile();
+	File tmpFile = p2.toFile();
+	
 	
 	
 	
@@ -35,7 +46,7 @@ public class files {
 		
 		//creating file if it doesnt exist
 		
-		File myObj = new File("C:\\WigBot\\Wig.txt");
+		File myObj = wigFile;
 	      try {
 			if (myObj.createNewFile()) {
 			    System.out.println("File created: " + myObj.getName());
@@ -51,7 +62,7 @@ public class files {
 		// writing and over writing files
 		
 		
-		File tempFile = new File("C:\\WigBot\\Wigtemp.txt");
+		File tempFile = tmpFile;
 		
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(tempFile)));
 		
@@ -59,7 +70,7 @@ public class files {
 		BufferedReader br = null;
 		FileReader reader = null;
 		try {
-		    reader = new FileReader("C:\\WigBot\\Wig.txt");
+		    reader = new FileReader(wigFile);
 		    br = new BufferedReader(reader);
 		    String line;
 		    int count = 0;
@@ -116,7 +127,7 @@ public class files {
 		    
 		    reader.close();
 		    writer.close();
-		    File realName = new File("C:\\WigBot\\Wig.txt");
+		    File realName = wigFile;
 		    realName.delete(); // remove the old file
 		    tempFile.renameTo(realName); // Rename temp file
 		    
@@ -143,7 +154,7 @@ public class files {
 		
 		FileReader reader = null;
 		try {
-		    reader = new FileReader("C:\\WigBot\\Wig.txt");
+		    reader = new FileReader(wigFile);
 		    BufferedReader br = new BufferedReader(reader);
 		    String line;
 
@@ -196,7 +207,7 @@ public class files {
 				
 				//creating file if it doesnt exist
 				
-				File myObj = new File("C:\\WigBot\\Wig.txt");
+				File myObj = wigFile;
 			      try {
 					if (myObj.createNewFile()) {
 					    System.out.println("File created: " + myObj.getName());
@@ -224,7 +235,7 @@ public class files {
 		
 		FileReader reader = null;
 		try {
-		    reader = new FileReader("C:\\WigBot\\Wig.txt");
+		    reader = new FileReader(wigFile);
 		    BufferedReader br = new BufferedReader(reader);
 		    String line;
 		    
@@ -280,7 +291,7 @@ public class files {
 	public Integer total() {
 		Integer tot=0;
 		
-		File myObj = new File("C:\\WigBot\\Wig.txt");
+		File myObj = wigFile;
 	      try {
 			if (myObj.createNewFile()) {
 			    System.out.println("File created: " + myObj.getName());
@@ -308,7 +319,7 @@ public class files {
 		BufferedReader br = null;
 		FileReader reader = null;
 		try {
-		  reader = new FileReader("C:\\WigBot\\Wig.txt");
+		  reader = new FileReader(wigFile);
 		  br = new BufferedReader(reader);
 		  String line;
 		
@@ -361,12 +372,12 @@ public class files {
 	public void Increment(GuildMessageReceivedEvent event) throws IOException {
 		avail = false;
 		
-		new File("C:\\WigBot\\Wigtemp.txt").delete(); //clears old file to be sade just in case
+		tmpFile.delete(); //clears old file to be sade just in case
 		
 
 				user=event.getAuthor().getId();
 				
-				File myObj = new File("C:\\WigBot\\Wig.txt");
+				File myObj = wigFile;
 			      try {
 					if (myObj.createNewFile()) {
 					    System.out.println("File created: " + myObj.getName());
@@ -381,7 +392,7 @@ public class files {
 				// writing and over writing files
 				
 				
-				File tempFile = new File("C:\\WigBot\\Wigtemp.txt");
+				File tempFile = tmpFile;
 				
 				PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(tempFile)));
 				
@@ -389,7 +400,7 @@ public class files {
 				BufferedReader br = null;
 				FileReader reader = null;
 				try {
-				    reader = new FileReader("C:\\WigBot\\Wig.txt");
+				    reader = new FileReader(wigFile);
 				    br = new BufferedReader(reader);
 				    String line;
 				    int count = 0;
@@ -442,13 +453,19 @@ public class files {
 				    
 				    reader.close();
 				    writer.close();
-				    File realName = new File("C:\\WigBot\\Wig.txt");
+				    File realName = wigFile;
 				    //realName.delete();
 				    //realName.delete(); // remove the old file
 				    Boolean deleted = false;
+				    int loopcount = 0;
 				    do {
 				    	deleted = realName.delete();
 				    	System.out.println("delloop");
+				    	loopcount++;
+				    	if(loopcount >100) {
+					    	throw new Exception();
+					    }
+					    
 				    }while(!deleted);
 				    
 				    
@@ -462,6 +479,9 @@ public class files {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}finally{
