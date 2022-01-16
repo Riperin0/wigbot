@@ -77,7 +77,7 @@ public class Commands extends ListenerAdapter {
 
 		case (prefix+"test"):
 			
-			//test(event);
+			test(event);
 			
 			break;
 
@@ -115,6 +115,8 @@ public class Commands extends ListenerAdapter {
 		event.getChannel().sendMessage(embed.build()).queue();
 		embed.clear();
 		
+		System.out.println(wiggy.p1.toString());
+		
 	}
 	
 	public void test(GuildMessageReceivedEvent event) { //its a test
@@ -127,12 +129,17 @@ public class Commands extends ListenerAdapter {
 		embed.setFooter("This was made by ripley");
 		event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
+		
+		//System.out.println(wiggy.p1.toString());
+		/*
 		try {
 			files test = new files(event.getAuthor().getId(),1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		
 		
 	}
 	
