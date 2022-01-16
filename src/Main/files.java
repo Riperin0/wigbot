@@ -22,7 +22,7 @@ public class files {
 	Boolean avail =true;
 	public HashMap<String, Integer> wigDict = new HashMap<String, Integer>();
 	
-	Path p1 = Paths.get("/txt/Wig.txt");
+	Path p1 = Paths.get("\\txt\\Wig.txt");
 	
 	
 	
