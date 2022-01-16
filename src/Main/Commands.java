@@ -130,7 +130,7 @@ public class Commands extends ListenerAdapter {
 		event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 		
-		//System.out.println(wiggy.p1.toString());
+		System.out.println(wiggy.p1.toString());
 		/*
 		try {
 			files test = new files(event.getAuthor().getId(),1);
