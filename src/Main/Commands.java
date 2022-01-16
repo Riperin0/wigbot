@@ -16,7 +16,7 @@ public class Commands extends ListenerAdapter {
 	public files wiggy = new files();
 
 	
-	public final String prefix = "&";
+	public final static String prefix = "&";
 	
 	
 	

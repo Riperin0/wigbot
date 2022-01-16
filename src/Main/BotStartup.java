@@ -7,16 +7,17 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 
 public class BotStartup {
-	static String prefix = new Commands().prefix;
+	static String prefixs = Commands.prefix;
 	
-	//static String token = new token().token;
+	static String tokenz = token.tokens;
 	public static void main(String[] args) throws LoginException {
 		
-		System.out.println(new Commands().wiggy.p1.toString());
+		System.out.println(new files().p1) ;
 		
-		new token();
-		JDABuilder jda = JDABuilder.createDefault(Main.token.token);
-		jda.setActivity(Activity.listening(prefix+"help"));
+		
+		
+		JDABuilder jda = JDABuilder.createDefault(tokenz);
+		jda.setActivity(Activity.listening(prefixs+"help"));
 		jda.setStatus(OnlineStatus.ONLINE);
 		jda.addEventListeners(new Commands());
 		jda.build();

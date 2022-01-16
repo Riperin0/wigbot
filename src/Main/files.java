@@ -47,7 +47,7 @@ public class files {
 		
 		
 		
-		System.out.println(myObj.getPath());
+		//System.out.println(myObj.getPath());
 		// writing and over writing files
 		
 		
@@ -160,9 +160,9 @@ public class files {
 		    	wigDict.put(Id, wigs);
 		    	
 		        // Always write the line, whether you changed it or not.
-		        System.out.println(line);
+		        //System.out.println(line);
 		        
-		        System.out.println(p1);
+		        //System.out.println(p1);
 		        
 		        //System.out.println("test2");
 		        
