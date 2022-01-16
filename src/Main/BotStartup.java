@@ -9,12 +9,13 @@ import net.dv8tion.jda.api.entities.Activity;
 public class BotStartup {
 	static String prefix = new Commands().prefix;
 	
-	static String token = new token().token;
+	//static String token = new token().token;
 	public static void main(String[] args) throws LoginException {
 		
 		System.out.println(new Commands().wiggy.p1.toString());
 		
-		JDABuilder jda = JDABuilder.createDefault(token);
+		new token();
+		JDABuilder jda = JDABuilder.createDefault(Main.token.token);
 		jda.setActivity(Activity.listening(prefix+"help"));
 		jda.setStatus(OnlineStatus.ONLINE);
 		jda.addEventListeners(new Commands());
