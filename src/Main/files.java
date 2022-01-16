@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class files {
 	Boolean avail =true;
 	public HashMap<String, Integer> wigDict = new HashMap<String, Integer>();
 	
-	
+	Path p1 = Paths.get("/txt/Wig.txt");
 	
 	
 	
