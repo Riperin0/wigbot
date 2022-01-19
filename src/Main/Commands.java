@@ -2,6 +2,7 @@ package Main;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,7 +19,7 @@ public class Commands extends ListenerAdapter {
 	
 	public final static String prefix = "&";
 	
-	
+	public HashMap<String, Integer> wigDict = wiggy.wigDict;
 	
 	@Override
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -32,13 +33,49 @@ public class Commands extends ListenerAdapter {
 		
 		
 		for (String word: args) {
+			
+			
 			if(word.toLowerCase().equals("wig")){
+				
+				
+				String user = event.getAuthor().getId();
+				
 				try {
-					wiggy.Increment(event);
-				} catch (IOException e) {
+				Integer wigtemp = wiggy.wigDict.get(user);
+				
+				wiggy.wigDict.replace(user, wigtemp+1);
+				} catch (NullPointerException e) {
+					wiggy.wigDict.put(user, 1);
+					e.printStackTrace();
+				}
+				
+				try {
+					
+					if (wiggy.avail) {
+						wiggy.Increment(event);
+					}else {
+						while(!wiggy.avail) {
+						 Thread.sleep(10);
+						}
+						
+						wiggy.Increment(event);
+						
+						
+						
+					}
+					
+					
+				} catch (IOException | InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				System.out.println("Dict:"+wiggy.wigDict.get(user));
+				
+				
+				
+				
+
 			}
 			
 		}
@@ -48,8 +85,8 @@ public class Commands extends ListenerAdapter {
 		
 		case("wig"): //TODO put this in the FOR loop so that we don't get +1 extra wig when someone starts with wig
 			
-			
-			String user = event.getAuthor().getId();
+			break;
+			/*String user = event.getAuthor().getId();
 			
 			try {
 			Integer wigtemp = wiggy.wigDict.get(user);
@@ -83,7 +120,7 @@ public class Commands extends ListenerAdapter {
 			
 			System.out.println("Dict:"+wiggy.wigDict.get(user));
 			
-			break;
+			break;*/
 		
 		case(prefix+"wig"):
 			
@@ -176,12 +213,33 @@ public class Commands extends ListenerAdapter {
 		 Integer userCount =test.wigCount(event.getAuthor().getId());
 		 Integer totalCount=test.total();
 		 
+		 Integer dictCount = wigDict.get(event.getAuthor().getId());
+		 Integer totalDict = 0;
+		 Integer Users = wigDict.size();
+		 for(Integer wigCount: wigDict.values()) {
+			 totalDict+= wigCount;
+			 
+		 }
+		 
+		 
 		 
 		 EmbedBuilder embed = new EmbedBuilder();
 			embed.setTitle("Wig");
 			embed.setDescription("Wig counts");
-			embed.addField("User","User count "+userCount,false);
-			embed.addField("Total","total count "+totalCount,false);
+			
+			
+			if(totalCount.equals(totalDict)) {
+				embed.addField("User","User count "+userCount,false);
+				embed.addField("Total","total count "+totalCount
+						+"\ntotal users "+Users,false);
+			}else {
+				embed.addField("User","User count "+dictCount,false);
+				embed.addField("Total","total count "+totalDict
+						+"\ntotal users "+Users,false);
+				
+			}
+			
+			
 			
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessage(embed.build()).queue();;
