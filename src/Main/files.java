@@ -236,33 +236,34 @@ public class files {
 		FileReader reader = null;
 		try {
 		    reader = new FileReader(wigFile);
-		    BufferedReader br = new BufferedReader(reader);
-		    String line;
-		    
-			//System.out.println((";;;;;;;;;;;;;;;;" + index));
-		    //System.out.println(index);
-		    while ((line = br.readLine()) != null) {
-		        if (line.split(" ")[0].equals(user)) {
-		        	//System.out.println("test");
-		            
-		        	//TODO change this part to better reflect storage
-		        	Integer Wigcount = Integer.parseInt(line.split(" ")[1]); //parses and int from the second part of the
-		        	//line
-		        	System.out.println(Wigcount);
-		        	return(Wigcount);
+		    try (BufferedReader br = new BufferedReader(reader)) {
+				String line;
+				
+				//System.out.println((";;;;;;;;;;;;;;;;" + index));
+				//System.out.println(index);
+				while ((line = br.readLine()) != null) {
+				    if (line.split(" ")[0].equals(user)) {
+				    	//System.out.println("test");
+				        
+				    	//TODO change this part to better reflect storage
+				    	Integer Wigcount = Integer.parseInt(line.split(" ")[1]); //parses and int from the second part of the
+				    	//line
+				    	System.out.println(Wigcount);
+				    	return(Wigcount);
 
-		            
-		        }
-		        // Always write the line, whether you changed it or not.
-		        System.out.println(line);
-		        
-		        
-		        
-		        //System.out.println("test2");
-		        
-		    }
-		    reader.close();
-		    br.close();
+				        
+				    }
+				    // Always write the line, whether you changed it or not.
+				    System.out.println(line);
+				    
+				    
+				    
+				    //System.out.println("test2");
+				    
+				}
+				reader.close();
+				br.close();
+			}
 		    
 		    
 		} catch (FileNotFoundException e) {
@@ -463,6 +464,7 @@ public class files {
 				    	System.out.println("delloop");
 				    	loopcount++;
 				    	if(loopcount >100) {
+				    		br.close();
 					    	throw new Exception();
 					    }
 					    
@@ -492,6 +494,101 @@ public class files {
 		avail = true;
 		
 	}
+	
+	public void DictReplace(GuildMessageReceivedEvent event) throws Exception {
+		//assigning variables
+		
+		//int n = Integer.parseInt(index);
+
+		
+		//creating file if it doesnt exist
+		
+		File myObj = wigFile;
+	      try {
+			if (myObj.createNewFile()) {
+			    System.out.println("File created: " + myObj.getName());
+			  }
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		//System.out.println(myObj.getPath());
+		// writing and over writing files
+		
+		
+		File tempFile = tmpFile;
+		
+		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(tempFile)));
+		
+		
+		BufferedReader br = null;
+		FileReader reader = null;
+		try {
+		    reader = new FileReader(wigFile);
+		    br = new BufferedReader(reader);
+		    String line;
+
+		    while ((line = br.readLine()) != null) {
+		    	String user = line.split(" ")[0];
+		    	
+		    	String newLine = user+" "+wigDict.get(user);
+
+		    	line = newLine;
+		    	
+		        // Always write the line, whether you changed it or not.
+		        System.out.println(line);
+		        writer.println(line);
+		        
+
+		        
+		    }
+
+	    
+		    reader.close();
+		    writer.close();
+		    File realName = wigFile;
+		    boolean deleted;
+		    int loopcount = 0;
+
+		    do {
+		    	deleted = realName.delete();
+		    	System.out.println("delloop");
+		    	loopcount++;
+		    	if(loopcount >100) {
+		    		br.close();
+			    	throw new Exception();
+			    }
+			    
+		    }while(!deleted);
+		    
+		    
+		    
+		    
+		    tempFile.renameTo(realName); // Rename temp file
+		    
+
+		} catch (FileNotFoundException e) {
+		    e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+		    
+
+		}
+	
+		
+	}
+	
+	
+	
+	
 	
 }
 

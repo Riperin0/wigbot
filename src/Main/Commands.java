@@ -149,7 +149,10 @@ public class Commands extends ListenerAdapter {
 			percent(event);
 			break;
 			
-
+		case(prefix+"sync"):
+			sync(event);
+			break;
+			
 		}
 		
 
@@ -208,10 +211,8 @@ public class Commands extends ListenerAdapter {
 	}
 	
 	public void userCount(GuildMessageReceivedEvent event) {
-		files test = new files();
-		
-		 Integer userCount =test.wigCount(event.getAuthor().getId());
-		 Integer totalCount=test.total();
+		Integer userCount =wiggy.wigCount(event.getAuthor().getId());
+		 Integer totalCount=wiggy.total();
 		 
 		 Integer dictCount = wigDict.get(event.getAuthor().getId());
 		 Integer totalDict = 0;
@@ -279,7 +280,28 @@ public class Commands extends ListenerAdapter {
 		
 	}
 	
-	
+	public void sync(GuildMessageReceivedEvent event) {
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		try {
+			wiggy.DictReplace(event);
+		} catch (Exception e) {
+			embed.setTitle("Error, Wig");
+			embed.setDescription("Update failed :(");
+			// TODO Auto-generated catch block
+			embed.setFooter("This was made by ripley");
+			event.getChannel().sendMessage(embed.build()).queue();;
+			embed.clear();
+			return;
+			
+		}
+		embed.setTitle("Wig, Update");
+		embed.setDescription("Successful (hopefully)");
+		
+		embed.setFooter("This was made by ripley");
+		event.getChannel().sendMessage(embed.build()).queue();;
+		embed.clear();
+	}
 	
 
 }
