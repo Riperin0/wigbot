@@ -24,7 +24,7 @@ public class files {
 	
 	Path p1 = Paths.get("txt/Wig.txt");
 	Path p2 = Paths.get("txt/Wigtemp.txt");
-	
+	Path p3 = Paths.get("txt/WigDict.txt");
 	
 	
 	
@@ -33,7 +33,7 @@ public class files {
 	
 	File wigFile = p1.toFile();
 	File tmpFile = p2.toFile();
-	
+	File dicttmp = p3.toFile();
 	
 	
 	
@@ -82,7 +82,7 @@ public class files {
 		        if (line.split(" ")[0].equals(userId)) {
 		        	//System.out.println("test");
 		            
-		        	//TODO change this part to better reflect storage
+
 		        	Integer Wigcount = Integer.parseInt(line.split(" ")[1]); //parses and int from the second part of the
 		        	//line
 		        	Wigcount+= WigCount;
@@ -243,9 +243,9 @@ public class files {
 				//System.out.println(index);
 				while ((line = br.readLine()) != null) {
 				    if (line.split(" ")[0].equals(user)) {
-				    	//System.out.println("test");
+
 				        
-				    	//TODO change this part to better reflect storage
+
 				    	Integer Wigcount = Integer.parseInt(line.split(" ")[1]); //parses and int from the second part of the
 				    	//line
 				    	System.out.println(Wigcount);
@@ -289,7 +289,7 @@ public class files {
 		return(null);
 	}
 	
-	public Integer total() {
+	public Integer total() throws IOException {
 		Integer tot=0;
 		
 		File myObj = wigFile;
@@ -331,7 +331,7 @@ public class files {
 		      
 		      	//System.out.println("test");
 		          
-		      	//TODO change this part to better reflect storage
+
 		      	Integer Wigcount = Integer.parseInt(line.split(" ")[1]); //parses and int from the second part of the
 		      	//line
 		      	tot +=Wigcount;
@@ -361,7 +361,8 @@ public class files {
 		
 		}
 		
-		
+		br.close();
+		reader.close();
 		
 		System.out.println("total:"+tot);
 		
@@ -496,41 +497,39 @@ public class files {
 	}
 	
 	public void DictReplace(GuildMessageReceivedEvent event) throws Exception {
-		//assigning variables
-		
-		//int n = Integer.parseInt(index);
 
-		
-		//creating file if it doesnt exist
-		
-		File myObj = wigFile;
-	      try {
-			if (myObj.createNewFile()) {
-			    System.out.println("File created: " + myObj.getName());
-			  }
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-		
-		//System.out.println(myObj.getPath());
 		// writing and over writing files
 		
 		
-		File tempFile = tmpFile;
+		File tempFile = dicttmp;
+		//tempFile.delete();
 		
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(tempFile)));
-		
-		
-		BufferedReader br = null;
-		FileReader reader = null;
-		try {
-		    reader = new FileReader(wigFile);
-		    br = new BufferedReader(reader);
-		    String line;
 
+		try {
+
+		    
+		    
+		    String line;
+		    
+		    for(String lines: wigDict.keySet()) {
+		    	
+		    	String user = lines;
+		    	
+		    	String newLine = user+" "+wigDict.get(user);
+
+		    	line = newLine;
+		    	
+		        // Always write the line, whether you changed it or not.
+		        System.out.println(line);
+		        writer.println(line);
+		    	
+		    	
+		    	
+		    	
+		    }
+		    
+		    /*
 		    while ((line = br.readLine()) != null) {
 		    	String user = line.split(" ")[0];
 		    	
@@ -544,12 +543,11 @@ public class files {
 		        
 
 		        
-		    }
+		    }*/
 
-	    
-		    reader.close();
+
 		    writer.close();
-		    File realName = wigFile;
+		    File realName = wigFile.getAbsoluteFile();
 		    boolean deleted;
 		    int loopcount = 0;
 
@@ -558,7 +556,7 @@ public class files {
 		    	System.out.println("delloop");
 		    	loopcount++;
 		    	if(loopcount >100) {
-		    		br.close();
+
 			    	throw new Exception();
 			    }
 			    

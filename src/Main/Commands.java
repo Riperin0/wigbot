@@ -83,44 +83,6 @@ public class Commands extends ListenerAdapter {
 		
 		switch (args[0]) { //checks for command to run
 		
-		case("wig"): //TODO put this in the FOR loop so that we don't get +1 extra wig when someone starts with wig
-			
-			break;
-			/*String user = event.getAuthor().getId();
-			
-			try {
-			Integer wigtemp = wiggy.wigDict.get(user);
-			
-			wiggy.wigDict.replace(user, wigtemp+1);
-			} catch (NullPointerException e) {
-				wiggy.wigDict.put(user, 1);
-				e.printStackTrace();
-			}
-			
-			try {
-				
-				if (wiggy.avail) {
-					wiggy.Increment(event);
-				}else {
-					while(!wiggy.avail) {
-					 Thread.sleep(10);
-					}
-					
-					wiggy.Increment(event);
-					
-					
-					
-				}
-				
-				
-			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			System.out.println("Dict:"+wiggy.wigDict.get(user));
-			
-			break;*/
 		
 		case(prefix+"wig"):
 			
@@ -186,12 +148,8 @@ public class Commands extends ListenerAdapter {
 		embed.setFooter("This was made by ripley");
 		event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
-		try {
-			files test = new files(event.getAuthor().getId(),1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+	
 		
 	}
 	
@@ -211,40 +169,33 @@ public class Commands extends ListenerAdapter {
 	}
 	
 	public void userCount(GuildMessageReceivedEvent event) {
-		Integer userCount =wiggy.wigCount(event.getAuthor().getId());
-		 Integer totalCount=wiggy.total();
+
 		 
-		 Integer dictCount = wigDict.get(event.getAuthor().getId());
-		 Integer totalDict = 0;
-		 Integer Users = wigDict.size();
-		 for(Integer wigCount: wigDict.values()) {
+		Integer dictCount = wigDict.get(event.getAuthor().getId());
+		Integer totalDict = 0;
+		Integer Users = wigDict.size();
+		for(Integer wigCount: wigDict.values()) {
 			 totalDict+= wigCount;
 			 
-		 }
+		}
 		 
 		 
 		 
-		 EmbedBuilder embed = new EmbedBuilder();
-			embed.setTitle("Wig");
-			embed.setDescription("Wig counts");
-			
-			
-			if(totalCount.equals(totalDict)) {
-				embed.addField("User","User count "+userCount,false);
-				embed.addField("Total","total count "+totalCount
-						+"\ntotal users "+Users,false);
-			}else {
-				embed.addField("User","User count "+dictCount,false);
-				embed.addField("Total","total count "+totalDict
-						+"\ntotal users "+Users,false);
-				
-			}
-			
-			
-			
-			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessage(embed.build()).queue();;
-			embed.clear();
+		EmbedBuilder embed = new EmbedBuilder();
+		embed.setTitle("Wig");
+		embed.setDescription("Wig counts");
+		
+
+		embed.addField("User","User count "+dictCount,false);
+		embed.addField("Total","total count "+totalDict
+					+"\ntotal users "+Users,false);
+
+		
+		
+		
+		embed.setFooter("This was made by ripley");
+		event.getChannel().sendMessage(embed.build()).queue();;
+		embed.clear();
 		 
 		 
 		
@@ -256,13 +207,33 @@ public class Commands extends ListenerAdapter {
 		Integer totalWig;
 		Float perc;
 		
+		 EmbedBuilder embed = new EmbedBuilder();
+		
+		
 		userWig = wiggy.wigCount(event.getAuthor().getId());
-		totalWig= wiggy.total();
+		try {
+			totalWig= wiggy.total();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			totalWig = null;
+			
+			embed.setTitle("Err");
+			embed.setDescription("Unable to get total");
+			
+			embed.setFooter("This was made by ripley");
+			event.getChannel().sendMessage(embed.build()).queue();;
+			embed.clear();
+			
+			
+			
+			return;
+		}
 		perc =  userWig.floatValue()/totalWig.floatValue();
 		
 		
 		
-		 EmbedBuilder embed = new EmbedBuilder();
+
 			embed.setTitle("Wig");
 			embed.setDescription("Wig counts");
 			embed.addField("User","User count "+userWig,false);
@@ -288,7 +259,7 @@ public class Commands extends ListenerAdapter {
 		} catch (Exception e) {
 			embed.setTitle("Error, Wig");
 			embed.setDescription("Update failed :(");
-			// TODO Auto-generated catch block
+
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
