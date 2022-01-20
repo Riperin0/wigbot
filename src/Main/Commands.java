@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 //import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -13,6 +14,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 
 public class Commands extends ListenerAdapter {
+	
+	
 	
 	
 	public files wiggy = new files();
@@ -28,7 +31,7 @@ public class Commands extends ListenerAdapter {
 		
 		System.out.println("TEST!");
 		
-		//event.getMessage().getContentRaw();
+		System.out.println(event.getMessage().getContentRaw());
 		
 		//event.getMessage().reply("Test").queue();;
 		
@@ -110,8 +113,25 @@ public class Commands extends ListenerAdapter {
 			break;
 			
 		case(prefix+"count"):
-			userCount(event);
-			break;
+			if(args.length == 1) {
+				userCount(event);
+				break;
+				
+			}else {
+				
+				
+				
+				User bleh;
+				
+				System.out.println(args[1].substring(3, args[1].length()-1));
+				
+				bleh = User.fromId(args[1].substring(3, args[1].length()-1));
+				
+				userCount(event,bleh);
+				break;
+				
+			}
+		
 		
 		case(prefix+"percent"):
 			percent(event);
@@ -180,7 +200,42 @@ public class Commands extends ListenerAdapter {
 	public void userCount(MessageReceivedEvent event) {
 
 		 
-		Integer dictCount = wigDict.get(event.getAuthor().getId());
+		
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		Integer dictCount;
+		
+		try {
+			dictCount = wigDict.get(event.getAuthor().getId());
+			if(dictCount == null) {
+				throw new Exception();
+			}
+			
+			
+			
+		}catch (Exception e) {
+			embed.setTitle("Error");
+			embed.setDescription("Not a valid user");
+			
+			
+			embed.setFooter("This was made by ripley");
+			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+			//event.getChannel().sendMessage(embed.build()).queue();;
+			embed.clear();
+			
+			
+			return;
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		Integer totalDict = 0;
 		Integer Users = wigDict.size();
 		for(Integer wigCount: wigDict.values()) {
@@ -190,7 +245,7 @@ public class Commands extends ListenerAdapter {
 		 
 		 
 		 
-		EmbedBuilder embed = new EmbedBuilder();
+		
 		embed.setTitle("Wig");
 		embed.setDescription("Wig counts");
 		
@@ -210,6 +265,65 @@ public class Commands extends ListenerAdapter {
 		 
 		
 	}
+	
+	public void userCount(MessageReceivedEvent event, User user) {
+
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		Integer dictCount;
+		
+		try {
+			
+			
+			
+			dictCount = wigDict.get(user.getId());
+			
+		}catch (Exception e) {
+			embed.setTitle("Error");
+			embed.setDescription("Not a valid user");
+			
+			
+			embed.setFooter("This was made by ripley");
+			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+			//event.getChannel().sendMessage(embed.build()).queue();;
+			embed.clear();
+			
+			
+			return;
+			
+		}
+		
+		Integer totalDict = 0;
+		Integer Users = wigDict.size();
+		for(Integer wigCount: wigDict.values()) {
+			 totalDict+= wigCount;
+			 
+		}
+		 
+		 
+		 
+		
+		embed.setTitle("Wig");
+		embed.setDescription("Wig counts");
+		
+
+		embed.addField("User","User count "+dictCount,false);
+		embed.addField("Total","total count "+totalDict
+					+"\ntotal users "+Users,false);
+
+		
+		
+		
+		embed.setFooter("This was made by ripley");
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();;
+		embed.clear();
+		 
+		 
+		
+	}
+	
+	
 	
 	public void percent(MessageReceivedEvent event) {
 		
