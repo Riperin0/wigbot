@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.Dictionary;
 import java.util.HashMap;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class files {
 	FileWriter file;
@@ -371,7 +371,7 @@ public class files {
 		
 	}
 	
-	public void Increment(GuildMessageReceivedEvent event) throws IOException {
+	public void Increment(MessageReceivedEvent event) throws IOException {
 		avail = false;
 		
 		tmpFile.delete(); //clears old file to be sade just in case
@@ -496,7 +496,7 @@ public class files {
 		
 	}
 	
-	public void DictReplace(GuildMessageReceivedEvent event) throws Exception {
+	public void DictReplace(MessageReceivedEvent event) throws Exception {
 
 		// writing and over writing files
 		

@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+//import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 
 
@@ -22,7 +23,12 @@ public class Commands extends ListenerAdapter {
 	public HashMap<String, Integer> wigDict = wiggy.wigDict;
 	
 	@Override
-	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+	public void onMessageReceived(MessageReceivedEvent event) {
+		
+		
+		System.out.println("TEST!");
+		
+		//event.getMessage().getContentRaw();
 		
 		//event.getMessage().reply("Test").queue();;
 		
@@ -126,19 +132,20 @@ public class Commands extends ListenerAdapter {
 	
 	
 	
-	public void help(GuildMessageReceivedEvent event) { //sends list of public commands
+	public void help(MessageReceivedEvent event) { //sends list of public commands
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("Command Help");
 		embed.setDescription("A list of what each command does");
 		embed.addField(prefix+"count","returns a user's wig count",false);
 		embed.addField(prefix+"percent","returns a user's percent wigs in regard to recorded wigs",false);
 		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();
 		embed.clear();
 		
 	}
 	
-	public void test(GuildMessageReceivedEvent event) { //its a test
+	public void test(MessageReceivedEvent event) { //its a test
 		
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("Test Title");
@@ -146,14 +153,15 @@ public class Commands extends ListenerAdapter {
 		embed.addField("Embed field 1","this is a conent field",false);
 		embed.addField("Embed field 2","this is a conent field",false);
 		embed.setFooter("This was made by ripley");
-		event.getChannel().sendMessage(embed.build()).queue();;
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 
 	
 		
 	}
 	
-	public void bread(GuildMessageReceivedEvent event) { //lists all the gay in my computer
+	public void bread(MessageReceivedEvent event) { //lists all the gay in my computer
 		
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("LGBTQ+");
@@ -163,12 +171,13 @@ public class Commands extends ListenerAdapter {
 		embed.addField("Me","Trans bitch",false);
 		embed.addField("Symph","Trans egg",false);
 		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();
 		embed.clear();
 		
 	}
 	
-	public void userCount(GuildMessageReceivedEvent event) {
+	public void userCount(MessageReceivedEvent event) {
 
 		 
 		Integer dictCount = wigDict.get(event.getAuthor().getId());
@@ -194,14 +203,15 @@ public class Commands extends ListenerAdapter {
 		
 		
 		embed.setFooter("This was made by ripley");
-		event.getChannel().sendMessage(embed.build()).queue();;
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 		 
 		 
 		
 	}
 	
-	public void percent(GuildMessageReceivedEvent event) {
+	public void percent(MessageReceivedEvent event) {
 		
 		Integer userWig;
 		Integer totalWig;
@@ -222,7 +232,8 @@ public class Commands extends ListenerAdapter {
 			embed.setDescription("Unable to get total");
 			
 			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessage(embed.build()).queue();;
+			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
 			
 			
@@ -241,7 +252,8 @@ public class Commands extends ListenerAdapter {
 			embed.addField("Percent","percent wig:"+perc,false);
 			
 			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessage(embed.build()).queue();;
+			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
 		
 		
@@ -251,7 +263,7 @@ public class Commands extends ListenerAdapter {
 		
 	}
 	
-	public void sync(GuildMessageReceivedEvent event) {
+	public void sync(MessageReceivedEvent event) {
 		EmbedBuilder embed = new EmbedBuilder();
 		
 		try {
@@ -261,7 +273,8 @@ public class Commands extends ListenerAdapter {
 			embed.setDescription("Update failed :(");
 
 			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessage(embed.build()).queue();;
+			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
 			return;
 			
@@ -270,7 +283,8 @@ public class Commands extends ListenerAdapter {
 		embed.setDescription("Successful (hopefully)");
 		
 		embed.setFooter("This was made by ripley");
-		event.getChannel().sendMessage(embed.build()).queue();;
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 	}
 	
