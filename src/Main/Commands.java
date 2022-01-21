@@ -158,11 +158,14 @@ public class Commands extends ListenerAdapter {
 		embed.setDescription("A list of what each command does");
 		embed.addField(prefix+"count","returns a user's wig count",false);
 		embed.addField(prefix+"percent","returns a user's percent wigs in regard to recorded wigs",false);
+		
+		send(event,embed);
+		/*
 		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
 		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 		//event.getChannel().sendMessage(embed.build()).queue();
 		embed.clear();
-		
+		*/
 	}
 	
 	public void test(MessageReceivedEvent event) { //its a test
@@ -186,15 +189,18 @@ public class Commands extends ListenerAdapter {
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("LGBTQ+");
 		embed.setDescription("A list of Gay people in my computer");
-		embed.addField("Bread","Trans bread",false);
+		//embed.addField("Bread","Trans bread",false);
 		embed.addField("Alan turing","Gay computer man, stan him",false);
 		embed.addField("Me","Trans bitch",false);
-		embed.addField("Symph","Trans egg",false);
+		//embed.addField("Symph","Trans egg",false);
+		
+		send(event,embed);
+		/*
 		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
 		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 		//event.getChannel().sendMessage(embed.build()).queue();
 		embed.clear();
-		
+		*/
 	}
 	
 	public void userCount(MessageReceivedEvent event) {
@@ -218,11 +224,15 @@ public class Commands extends ListenerAdapter {
 			embed.setDescription("Not a valid user");
 			
 			
+			
+			send(event,embed);
+			
+			/*
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
-			
+			*/
 			
 			return;
 			
@@ -250,18 +260,18 @@ public class Commands extends ListenerAdapter {
 		embed.setDescription("Wig counts");
 		
 
-		embed.addField("User","User count "+dictCount,false);
+		embed.addField("User","You have said wig: "+dictCount+", times",false);
 		embed.addField("Total","total count "+totalDict
 					+"\ntotal users "+Users,false);
 
 		
-		
-		
+		send(event,embed);
+		/*
 		embed.setFooter("This was made by ripley");
 		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
-		 
+		 */
 		 
 		
 	}
@@ -283,11 +293,13 @@ public class Commands extends ListenerAdapter {
 			embed.setDescription("Not a valid user");
 			
 			
+			send(event,embed);
+			/*
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
-			
+			*/
 			
 			return;
 			
@@ -307,18 +319,19 @@ public class Commands extends ListenerAdapter {
 		embed.setDescription("Wig counts");
 		
 
-		embed.addField("User","User count "+dictCount,false);
+		embed.addField("User",user.getAsMention()+" has said wig: "+dictCount+", times",false);
 		embed.addField("Total","total count "+totalDict
 					+"\ntotal users "+Users,false);
 
 		
 		
-		
+		send(event,embed);
+		/*
 		embed.setFooter("This was made by ripley");
 		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
-		 
+		 */
 		 
 		
 	}
@@ -345,11 +358,13 @@ public class Commands extends ListenerAdapter {
 			embed.setTitle("Err");
 			embed.setDescription("Unable to get total");
 			
+			send(event,embed);
+			/*
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
-			
+			*/
 			
 			
 			return;
@@ -365,11 +380,14 @@ public class Commands extends ListenerAdapter {
 			embed.addField("Total","total count "+totalWig,false);
 			embed.addField("Percent","percent wig:"+perc,false);
 			
+			
+			send(event,embed);
+			/*
 			embed.setFooter("This was made by ripley");
 			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
 			//event.getChannel().sendMessage(embed.build()).queue();;
 			embed.clear();
-		
+			*/
 		
 		
 		
@@ -401,6 +419,22 @@ public class Commands extends ListenerAdapter {
 		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 	}
+	
+	public void send(MessageReceivedEvent event, EmbedBuilder embed) {
+		
+		String Tag = "<@!138365418669604864>";
+		
+		
+		embed.addField("","This was made by ripley:"+ Tag, false);
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
+		//event.getChannel().sendMessage(embed.build()).queue();;
+		embed.clear();
+		
+		
+		
+	}
+	
+	
 	
 
 }
