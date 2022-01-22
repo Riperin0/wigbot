@@ -158,9 +158,14 @@ public class Commands extends ListenerAdapter {
 			sync(event);
 			break;
 			
+		case(prefix+"leaderboard"):
+			leaderboard(event);
+			break;		
+	
+			
 		}
 		
-
+		
 		
 		
 	
@@ -449,6 +454,127 @@ public class Commands extends ListenerAdapter {
 		return(wigDict.get(user.getId()));
 		
 	}
+	
+	public void leaderboard(MessageReceivedEvent event) {
+		
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		
+		String first = "";
+		Integer wigsone = 0;
+		
+		String second = "";
+		Integer wigstwo = 0;
+		
+		String third = "";
+		Integer wigsthree = 0;
+		
+		String fourth = "";
+		Integer wigsfour = 0;
+		
+		String fifth ="";
+		Integer wigsfive = 0;
+		
+		
+		
+		for(String user: wigDict.keySet() ) {
+			
+			int current = wigDict.get(user);
+			
+			
+			if(current > wigsone) { //this is a terrible way to do it, lel
+				
+				wigsfive = wigsfour.intValue();
+				fifth = fourth.toString();
+				
+				wigsfour= wigsthree.intValue();
+				fourth = third.toString();
+				
+				wigsthree= wigstwo.intValue();
+				third = second.toString();
+				
+				wigstwo= wigsone.intValue();
+				second = first.toString();
+				
+				first = user;
+				wigsone = wigDict.get(user);
+				
+			} else if(current > wigstwo) {
+				
+				wigsfive = wigsfour.intValue();
+				fifth = fourth.toString();
+				
+				wigsfour= wigsthree.intValue();
+				fourth = third.toString();
+				
+				wigsthree= wigstwo.intValue();
+				third = second.toString();
+				
+				
+				wigstwo = wigDict.get(user);
+				second= user;
+				
+				
+				
+			} else if(current > wigsthree) {
+				
+				wigsfive = wigsfour.intValue();
+				fifth = fourth.toString();
+				
+				wigsfour= wigsthree.intValue();
+				fourth = third.toString();
+				
+				wigsthree= wigDict.get(user);
+				third = user;
+				
+				
+				
+				
+			} else if(current > wigsfour) {
+				
+				wigsfive = wigsfour.intValue();
+				fifth = fourth.toString();
+				
+				wigsfour= wigDict.get(user);
+				fourth = user;
+				
+				
+				
+				
+			} else if(current > wigsfive) {
+				
+				wigsfive = wigDict.get(user);
+				fifth = user;
+				
+				
+				
+			} 
+			
+		}
+		
+		
+		
+		embed.setTitle("Wig");
+		embed.setDescription("Wig leaderboard");
+		embed.addField("First", User.fromId(first).getAsMention()+":in first place with:"+wigsone+" wigs", false);
+		embed.addField("Second", User.fromId(second).getAsMention()+":in second place with:"+wigstwo+" wigs", false);
+		embed.addField("Third", User.fromId(third).getAsMention()+":in third place with:"+wigsthree+" wigs", false);
+		embed.addField("Fourth", User.fromId(fourth).getAsMention()+":in fourth place with:"+wigsfour+" wigs", false);
+		embed.addField("Fifth", User.fromId(fifth).getAsMention()+":in fifth place with:"+wigsfive+" wigs", false);
+		
+
+		
+		send(event,embed);
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
 	
 	
 
