@@ -160,12 +160,7 @@ public class Commands extends ListenerAdapter {
 		embed.addField(prefix+"percent","returns a user's percent wigs in regard to recorded wigs",false);
 		
 		send(event,embed);
-		/*
-		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-		//event.getChannel().sendMessage(embed.build()).queue();
-		embed.clear();
-		*/
+
 	}
 	
 	public void test(MessageReceivedEvent event) { //its a test
@@ -177,7 +172,6 @@ public class Commands extends ListenerAdapter {
 		embed.addField("Embed field 2","this is a conent field",false);
 		embed.setFooter("This was made by ripley");
 		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
 
 	
@@ -195,12 +189,7 @@ public class Commands extends ListenerAdapter {
 		//embed.addField("Symph","Trans egg",false);
 		
 		send(event,embed);
-		/*
-		embed.setFooter("This was made by ripley, ~Ripley#7880 <@!138365418669604864>");
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-		//event.getChannel().sendMessage(embed.build()).queue();
-		embed.clear();
-		*/
+
 	}
 	
 	public void userCount(MessageReceivedEvent event) {
@@ -227,24 +216,11 @@ public class Commands extends ListenerAdapter {
 			
 			send(event,embed);
 			
-			/*
-			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-			//event.getChannel().sendMessage(embed.build()).queue();;
-			embed.clear();
-			*/
+
 			
 			return;
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		Integer totalDict = 0;
 		Integer Users = wigDict.size();
@@ -266,13 +242,7 @@ public class Commands extends ListenerAdapter {
 
 		
 		send(event,embed);
-		/*
-		embed.setFooter("This was made by ripley");
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-		//event.getChannel().sendMessage(embed.build()).queue();;
-		embed.clear();
-		 */
-		 
+
 		
 	}
 	
@@ -294,12 +264,7 @@ public class Commands extends ListenerAdapter {
 			
 			
 			send(event,embed);
-			/*
-			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-			//event.getChannel().sendMessage(embed.build()).queue();;
-			embed.clear();
-			*/
+
 			
 			return;
 			
@@ -326,68 +291,82 @@ public class Commands extends ListenerAdapter {
 		
 		
 		send(event,embed);
-		/*
-		embed.setFooter("This was made by ripley");
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-		//event.getChannel().sendMessage(embed.build()).queue();;
-		embed.clear();
-		 */
+
 		 
 		
 	}
 	
 	
 	
-	public void percent(MessageReceivedEvent event) {
+	public void percent(MessageReceivedEvent event) { //TODO refactor embed
 		
-		Integer userWig;
 		Integer totalWig;
 		Float perc;
+		
+		Integer dictWig;
+		
+		String userId = event.getAuthor().getId();
+		
+		dictWig = wigDict.get(userId);
+		
+		
+		
+		totalWig = totalWig();
 		
 		 EmbedBuilder embed = new EmbedBuilder();
 		
 		
-		userWig = wiggy.wigCount(event.getAuthor().getId());
-		try {
-			totalWig= wiggy.total();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			totalWig = null;
-			
-			embed.setTitle("Err");
-			embed.setDescription("Unable to get total");
-			
-			send(event,embed);
-			/*
-			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-			//event.getChannel().sendMessage(embed.build()).queue();;
-			embed.clear();
-			*/
-			
-			
-			return;
-		}
-		perc =  userWig.floatValue()/totalWig.floatValue();
+		perc =  dictWig.floatValue()/totalWig.floatValue();
 		
 		
 		
 
-			embed.setTitle("Wig");
-			embed.setDescription("Wig counts");
-			embed.addField("User","User count "+userWig,false);
-			embed.addField("Total","total count "+totalWig,false);
-			embed.addField("Percent","percent wig:"+perc,false);
-			
-			
-			send(event,embed);
-			/*
-			embed.setFooter("This was made by ripley");
-			event.getChannel().sendMessageEmbeds(embed.build()).queue();;
-			//event.getChannel().sendMessage(embed.build()).queue();;
-			embed.clear();
-			*/
+		embed.setTitle("Wig");
+		embed.setDescription("Wig counts");
+		embed.addField("User", "you have said wig: "+dictWig+", times",false);
+		embed.addField("Total","total count "+totalWig,false);
+		embed.addField("Percent","percent wig:"+perc,false);
+		
+		
+		send(event,embed);
+		
+		
+		
+		
+		
+	}
+	
+	public void percent(MessageReceivedEvent event, User user) { //Refactor for use w/ user commands
+		
+		Integer totalWig;
+		Float perc;
+		
+		Integer dictWig;
+		
+		String userId = user.getId();
+		
+		dictWig = wigDict.get(userId);
+		
+		
+		
+		totalWig = totalWig();
+		
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		
+		perc =  dictWig.floatValue()/totalWig.floatValue();
+		
+		
+		
+
+		embed.setTitle("Wig");
+		embed.setDescription("Wig counts");
+		embed.addField("User",user.getAsMention()+" has said wig: "+dictWig+", times",false);
+		embed.addField("Total","total count "+totalWig,false);
+		embed.addField("Percent","percent wig:"+perc,false);
+		
+		
+		send(event,embed);
 		
 		
 		
@@ -434,6 +413,24 @@ public class Commands extends ListenerAdapter {
 		
 	}
 	
+	public Integer totalWig(){
+		
+		Integer totalDict = 0;
+		for(Integer wigCount: wigDict.values()) {
+			 totalDict+= wigCount;
+			 
+		}
+		
+		return totalDict;
+		
+		
+	}
+	
+	public Integer userWig(User user) { //TODO create
+		
+		return(wigDict.get(user.getId()));
+		
+	}
 	
 	
 
