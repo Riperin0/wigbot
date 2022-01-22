@@ -134,8 +134,25 @@ public class Commands extends ListenerAdapter {
 		
 		
 		case(prefix+"percent"):
-			percent(event);
-			break;
+			if(args.length == 1) {
+				percent(event);
+				break;
+				
+			}else {
+				
+				
+				
+				User bleh;
+				
+				System.out.println(args[1].substring(3, args[1].length()-1));
+				
+				bleh = User.fromId(args[1].substring(3, args[1].length()-1));
+				
+				percent(event,bleh);
+				break;
+				
+			}
+
 			
 		case(prefix+"sync"):
 			sync(event);
@@ -185,6 +202,7 @@ public class Commands extends ListenerAdapter {
 		embed.setDescription("A list of Gay people in my computer");
 		//embed.addField("Bread","Trans bread",false);
 		embed.addField("Alan turing","Gay computer man, stan him",false);
+		embed.addField("Pazarus","Gay computer man, stan him",false);
 		embed.addField("Me","Trans bitch",false);
 		//embed.addField("Symph","Trans egg",false);
 		
