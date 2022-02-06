@@ -2,9 +2,12 @@ package Main;
 
 
 import java.io.IOException;
+import java.nio.channels.Channel;
 import java.util.HashMap;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 //import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,6 +17,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 
 public class Commands extends ListenerAdapter {
+	
+	User Ripley = User.fromId("138365418669604864");
 	
 	
 	
@@ -28,6 +33,9 @@ public class Commands extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		
+		int softWig = 0;
+		
+		int softMax = 5;
 		
 		System.out.println("TEST!");
 		
@@ -45,7 +53,10 @@ public class Commands extends ListenerAdapter {
 			
 			
 			if(word.toLowerCase().equals("wig")){
-				
+				softWig++;
+				if(softWig >= softMax) {
+					break;
+				}
 				
 				String user = event.getAuthor().getId();
 				
@@ -101,7 +112,16 @@ public class Commands extends ListenerAdapter {
 			
 			help(event);
 			break;
-
+			
+		case (prefix+"set"):
+			if(event.getAuthor().equals(Ripley)) {
+				set(event, event.getMessage().getContentRaw());
+			}
+			
+			//set(event, event.getMessage().getContentRaw());
+			
+			
+			break;
 		case (prefix+"test"):
 			
 			//test(event);
@@ -161,7 +181,24 @@ public class Commands extends ListenerAdapter {
 		case(prefix+"leaderboard"):
 			leaderboard(event);
 			break;		
-	
+			
+		case(prefix+"message"):
+			if(!event.getAuthor().equals(Ripley)) {
+				break;
+				
+			}
+		StringBuffer sb = new StringBuffer();
+		
+		for(int i=0;i< args.length;i++) {
+			if(i!=0) {
+				sb.append(args[i]+" ");
+			}
+			
+		}
+			System.out.println(sb.toString());
+			message(event,sb.toString());
+			break;
+		
 			
 		}
 		
@@ -572,10 +609,66 @@ public class Commands extends ListenerAdapter {
 		
 		
 	}
+	public void set(MessageReceivedEvent event, String message) {
+		
+		
+		
+		String[] args = message.split(" ");
+		//System.out.println(args[1].substring(3, args[1].length()-1));
+		//User user = User.fromId(args[1].substring(3, args[1].length()-1));
+		User user = fromMention(args[1]);
+		
+		
+		Integer replace = Integer.parseInt(args[2]);
+		
+		System.out.println(wigDict.get(user.getId()));
+		
+		
+		wigDict.replace(user.getId(), replace);
+		
+		System.out.println(wigDict.get(user.getId()));
+		
+		
+		try {
+			wiggy.DictReplace(event);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
+	public void message(MessageReceivedEvent event, String message) {
+		
+		//TextChannel txtChannel = event.getJDA().getTextChannelById("489266495877152768"); //Live channel
+		
+		TextChannel txtChannel = event.getJDA().getTextChannelById("934701000747515954"); //Test channel
+		
+		
+		
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		
+		
+		String Tag = "<@!930680276101783592>";
+		
+		embed.addField("WigBot",message, false);
+		
+		embed.addField("","This was made by Me:"+ Tag, false);
+		txtChannel.sendMessageEmbeds(embed.build()).queue();
+		//event.getChannel().sendMessage(embed.build()).queue();;
+		embed.clear();
+		
+		
+		
+		
+	}
 	
-	
-	
+	public User fromMention(String mention) {
+		String temp = mention.substring(3, mention.length()-1);
+		return User.fromId(temp);
+	}
 	
 
 }
