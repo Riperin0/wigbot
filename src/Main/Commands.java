@@ -95,22 +95,28 @@ public class Commands extends ListenerAdapter {
 		}
 		//// HERE
 		
-		
-		
-		try {
-		Integer wigtemp = wiggy.wigDict.get(user);
-		
-		wiggy.wigDict.replace(user, wigtemp+totalWig+softWig);
-		
-		
-		wiggy.DictReplace(event);
-		} catch (NullPointerException e) {
-			wiggy.wigDict.put(user, 1);
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(totalWig !=0 || softWig != 0) {
+			
+			try {
+				Integer wigtemp = wiggy.wigDict.get(user);
+				
+				wiggy.wigDict.replace(user, wigtemp+totalWig+softWig);
+				
+				
+				wiggy.DictReplace(event);
+				} catch (NullPointerException e) {
+					wiggy.wigDict.put(user, 1);
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+			
 		}
+		
+		
 		
 		
 		
