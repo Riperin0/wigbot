@@ -4,6 +4,7 @@ package Main;
 import java.io.IOException;
 import java.nio.channels.Channel;
 import java.util.HashMap;
+import java.util.Random;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -20,8 +21,14 @@ public class Commands extends ListenerAdapter {
 	
 	User Ripley = User.fromId("138365418669604864");
 	
+	User Nina = User.fromId("338443523974234112");
+	
+	User Seth = User.fromId("640244695951212545");
+	
+	//https://discord.com/channels/489256996709728256/489262238331305985/943363774813982781
 	
 	
+	Random randy = new Random();
 	
 	public files wiggy = new files();
 
@@ -33,9 +40,18 @@ public class Commands extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		
-		int softWig = 0;
+		if(event.getAuthor().equals(Seth) && randy.nextInt(2)==0) {
+			event.getChannel().sendMessage("https://discord.com/channels/489256996709728256/489262238331305985/943363774813982781").queue();
+			event.getChannel().sendMessage("Enjoy Men").queue();
+			
+		}
 		
-		int softMax = 5;
+		String user = event.getAuthor().getId();
+		
+		int softWig = 0;
+		int totalWig = 0;
+		
+		int softMax = 6;
 		
 		System.out.println("TEST!");
 		
@@ -53,42 +69,20 @@ public class Commands extends ListenerAdapter {
 			
 			
 			if(word.toLowerCase().equals("wig")){
-				softWig++;
-				if(softWig >= softMax) {
+				totalWig++;
+				
+				if(totalWig >= softMax) {
+					totalWig = 1;
+					softWig -= 1;
+					continue;
+					
+				}
+				if(wigDict.get(event.getAuthor().getId()) + softWig== wigDict.get(Nina.getId())) {
+					totalWig -=1;
 					break;
 				}
 				
-				String user = event.getAuthor().getId();
 				
-				try {
-				Integer wigtemp = wiggy.wigDict.get(user);
-				
-				wiggy.wigDict.replace(user, wigtemp+1);
-				} catch (NullPointerException e) {
-					wiggy.wigDict.put(user, 1);
-					e.printStackTrace();
-				}
-				
-				try {
-					
-					if (wiggy.avail) {
-						wiggy.Increment(event);
-					}else {
-						while(!wiggy.avail) {
-						 Thread.sleep(10);
-						}
-						
-						wiggy.Increment(event);
-						
-						
-						
-					}
-					
-					
-				} catch (IOException | InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 				System.out.println("Dict:"+wiggy.wigDict.get(user));
 				
@@ -99,8 +93,28 @@ public class Commands extends ListenerAdapter {
 			}
 			
 		}
+		//// HERE
 		
 		
+		
+		try {
+		Integer wigtemp = wiggy.wigDict.get(user);
+		
+		wiggy.wigDict.replace(user, wigtemp+totalWig+softWig);
+		
+		
+		wiggy.DictReplace(event);
+		} catch (NullPointerException e) {
+			wiggy.wigDict.put(user, 1);
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		////
 		switch (args[0]) { //checks for command to run
 		
 		
@@ -611,16 +625,49 @@ public class Commands extends ListenerAdapter {
 	}
 	public void set(MessageReceivedEvent event, String message) {
 		
-		
+		EmbedBuilder embed = new EmbedBuilder();
 		
 		String[] args = message.split(" ");
 		//System.out.println(args[1].substring(3, args[1].length()-1));
 		//User user = User.fromId(args[1].substring(3, args[1].length()-1));
-		User user = fromMention(args[1]);
+		User user;
+		Integer replace;
 		
 		
-		Integer replace = Integer.parseInt(args[2]);
 		
+		try {
+		user = fromMention(args[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+			embed.setTitle("Wig error");
+			embed.setDescription("Please define a user using a mention, followed by the set ammount");
+			send(event,embed);
+			return;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		try {
+		replace = Integer.parseInt(args[2]);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			embed.setTitle("Wig error");
+			embed.setDescription("Please define an ammount to set to");
+			send(event,embed);
+			return;
+			
+		}
 		System.out.println(wigDict.get(user.getId()));
 		
 		
@@ -633,9 +680,18 @@ public class Commands extends ListenerAdapter {
 			wiggy.DictReplace(event);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			embed.setTitle("Wig error");
+			embed.setDescription("Error Lel");
+			send(event,embed);
 		}
 		
+		
+		embed.setTitle("Wig set!");
+		embed.setDescription(user.getAsMention()+" has been set to: "+wigDict.get(user.getId())+ " wigs");
+		
+		send(event,embed);
 		
 	}
 	
