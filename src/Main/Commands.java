@@ -53,7 +53,7 @@ public class Commands extends ListenerAdapter {
 		
 		int softMax = 6;
 		
-		System.out.println("TEST!");
+		//System.out.println("TEST!"); TODO this is where I have it say test
 		
 		System.out.println(event.getMessage().getContentRaw());
 		
@@ -186,7 +186,7 @@ public class Commands extends ListenerAdapter {
 				
 				System.out.println(args[1].substring(3, args[1].length()-1));
 				
-				bleh = User.fromId(args[1].substring(3, args[1].length()-1));
+				bleh = fromMention(args[1]);
 				
 				percent(event,bleh);
 				break;
