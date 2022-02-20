@@ -19,7 +19,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Commands extends ListenerAdapter {
 	
-	User Ripley = User.fromId("138365418669604864");
+	User Ripley = User.fromId("944747583539130381");
 	
 	User Nina = User.fromId("338443523974234112");
 	
@@ -77,11 +77,22 @@ public class Commands extends ListenerAdapter {
 					continue;
 					
 				}
+				try {
 				if(wigDict.get(event.getAuthor().getId()) + softWig== wigDict.get(Nina.getId())) {
 					totalWig -=1;
 					break;
 				}
-				
+				} catch (NullPointerException e) {
+					
+					String ID = event.getAuthor().getId();
+					
+					wigDict.put(ID, totalWig);
+					
+					System.out.print(e);
+					
+					
+					
+				}
 				
 				
 				System.out.println("Dict:"+wiggy.wigDict.get(user));
@@ -481,7 +492,11 @@ public class Commands extends ListenerAdapter {
 	
 	public void send(MessageReceivedEvent event, EmbedBuilder embed) {
 		
-		String Tag = "<@!138365418669604864>";
+		
+		String Tag = Ripley.getAsMention();
+		//String Tag = "<@!944747583539130381>";
+		
+		
 		
 		
 		embed.addField("","This was made by ripley:"+ Tag, false);
