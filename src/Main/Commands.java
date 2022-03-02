@@ -153,6 +153,12 @@ public class Commands extends ListenerAdapter {
 			
 			
 			break;
+			
+		case(prefix+"nuke"):
+			nuke(event);
+			break;
+			
+			
 		case (prefix+"test"):
 			
 			//test(event);
@@ -689,12 +695,28 @@ public class Commands extends ListenerAdapter {
 			return;
 			
 		}
-		System.out.println(wigDict.get(user.getId()));
+		//System.out.println(wigDict.get(user.getId()));
 		
+		try {
+			wigDict.get(user.getId());
+			wigDict.replace(user.getId(), replace);
+			if(wigDict.get(user.getId()) == null) {
+				
+				throw new Exception("Null entry");
+				
+			}
+			
+			System.out.println(wigDict.get(user.getId()));
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			wigDict.put(user.getId(), replace);
+			
+			
+		}
 		
-		wigDict.replace(user.getId(), replace);
-		
-		System.out.println(wigDict.get(user.getId()));
 		
 		
 		try {
@@ -736,6 +758,53 @@ public class Commands extends ListenerAdapter {
 		txtChannel.sendMessageEmbeds(embed.build()).queue();
 		//event.getChannel().sendMessage(embed.build()).queue();;
 		embed.clear();
+		
+		
+		
+		
+	}
+	
+	public void nuke(MessageReceivedEvent event) {
+		
+		EmbedBuilder embed = new EmbedBuilder();
+		
+		User user = event.getAuthor();
+		
+		String launchCode = "EatMyAssSarah";
+		
+		String confirm = null;
+		
+		try {
+		
+		confirm = event.getMessage().getContentRaw().split(" ")[1];
+		
+		}catch(Exception e) {
+			embed.setTitle("Nuke Ready");
+			embed.setDescription("All you need do is say the launch code");
+			
+			send(event,embed);
+			return;
+		}
+		
+		if(launchCode.equals(confirm)) {
+			
+			
+			wigDict.remove(user.getId());
+			
+			embed.setTitle("NUKE LAUNCHING");
+			embed.setDescription("You asked for this... you monster...");
+			
+			send(event,embed);
+			
+			return;
+			
+		}
+		
+		embed.setTitle("Nuke Ready");
+		embed.setDescription("All you need do is say the launch code");
+		
+		send(event,embed);
+		
 		
 		
 		

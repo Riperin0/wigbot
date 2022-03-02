@@ -521,7 +521,7 @@ public class files {
 		    	line = newLine;
 		    	
 		        // Always write the line, whether you changed it or not.
-		        System.out.println(line);
+		        //System.out.println(line);
 		        writer.println(line);
 		    	
 		    	
