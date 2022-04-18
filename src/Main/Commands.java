@@ -55,7 +55,7 @@ public class Commands extends ListenerAdapter {
 		
 		//System.out.println("TEST!"); TODO this is where I have it say test
 		
-		System.out.println(event.getMessage().getContentRaw());
+		//System.out.println(event.getMessage().getContentRaw());
 		
 		//event.getMessage().reply("Test").queue();;
 		
